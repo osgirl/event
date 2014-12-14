@@ -5,24 +5,107 @@
     <title>event</title>
 
     <link rel="stylesheet" href="css/demo.css"/>
-    <link rel="stylesheet" href="css/event.css"/>
-    <link rel="stylesheet" href="js/event.js"/>
 </head>
 <body>
 
 <h1>event
-    <small  class="demo-version text--secondary">v0.0.5
+    <small  class="demo-version text--secondary">v0.0.6
         <a href="https://github.com/skyglobal/event" class="text--secondary">
             <span class="demo-icon demo-icon--github"  aria-hidden=true></span>
             <span class="speak">Github Repo</span>
         </a></small>
 </h1>
 
-
-Demo component here!
-
+<script src="js/event.toolkit.js"></script>
 
 
-<h2>Example 1</h2>
 
-Break up the example files if they become too large!
+
+<h2>Emit</h2>
+
+<div>
+    <p>You can emit standard and custom (non-jQuery) JS events.</p>
+    <p><code>.emit</code>:
+        <span id="css-demo-event-emit">...shout loud and proud</span>
+        <span id="css-demo-event-emit-custom"></span></p>
+</div>
+
+<script>
+    var elEmit = document.getElementById('css-demo-event-emit');
+    var elEmitCustom = document.getElementById('css-demo-event-emit-custom');
+
+    function updateEventEmit(){
+        elEmit.innerHTML = 'now my throat is sore';
+        toolkit.event.emit(elEmitCustom,'demoCustomEmit');
+    }
+
+    function updateEventEmitCustom(){
+        elEmitCustom.innerHTML = ' ....shhh.';
+    }
+
+    toolkit.event.on(elEmit,'click',updateEventEmit);
+    toolkit.event.on(elEmitCustom,'demoCustomEmit',updateEventEmitCustom);
+</script>
+<h2>Off Event</h2>
+
+<div>
+    <p>You can turn off events that were previously applied using the <code>on</code> method above.</p>
+    <p><code>.off</code>: <span id="css-demo-event-off">turn off the 'on' event (below)</span></p>
+</div>
+
+<script>
+    var elOff = document.getElementById('css-demo-event-off');
+
+    toolkit.event.on(elOff,'click', updateEventOff);
+
+    function updateEventOff(){
+        toolkit.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
+    }
+</script>
+<h2>On Event</h2>
+
+<div>
+    <p>You can listen for standard and custom (non-jQuery) JS events</p>
+    <p><code>.on</code>: <span id="css-demo-event-on">...off. click here to see</span></p>
+</div>
+
+<script>
+    var elOn = document.getElementById('css-demo-event-on');
+
+    window.updateEventOn = function(){
+        elOn.innerHTML = 'now i\'m on.';
+    };
+
+    toolkit.event.on(elOn,'click',window.updateEventOn);
+</script>
+<h2>Ready Event</h2>
+
+<div>
+    <p>You can detect when the document has finished loading everything except images:</p>
+    <p><code>.ready</code>: <span id="css-demo-event-ready">document loading...</span></p>
+</div>
+
+<script>
+    function updateEventReady(){
+        document.getElementById('css-demo-event-ready').innerHTML = 'Woah, document loaded.';
+    }
+
+    toolkit.event.ready(updateEventReady);
+</script>
+<h2>Resize Event</h2>
+
+<div>
+    <p>You can know the moment (200ms) a user has finished resizing the browser</p>
+    <p><code>resizeend</code>:
+        <span id="css-demo-event-resizeend">not re-sized.</span>
+</div>
+
+<script>
+    var elResizeEnd = document.getElementById('css-demo-event-resizeend');
+
+    function updateEventResizeEnd(){
+        elResizeEnd.innerHTML = 'boom. resized.';
+    }
+
+    toolkit.event.on(window,'resizeend',updateEventResizeEnd);
+</script>
