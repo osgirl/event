@@ -1,11 +1,11 @@
 var bower = require('../bower.json');
-bower.release = false;
+bower.release = true;
 
 
 module.exports = {
     bower: bower,
     aws:{
-        release: false,
+        release: true,
         bucket: process.env.YOUR_AWS_BUCKET,
         key: process.env.YOUR_AWS_ACCESS_KEY_ID,
         secret: process.env.YOUR_AWS_SECRET_ACCESS_KEY,
