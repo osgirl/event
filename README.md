@@ -7,13 +7,10 @@ See http://skyglobal.github.io/event/ for a demo of the Component
 
 ## Usage
 
-### As CSS
-
-http://web-toolkit.global.sky.com/components/event/0.0.5/css/event.css
-
 ### As JS
 
-http://web-toolkit.global.sky.com/components/event/0.0.5/js/event.js
+http://web-toolkit.global.sky.com/components/event/0.0.5/js/event.toolkit.js
+http://web-toolkit.global.sky.com/components/event/0.0.5/js/event.toolkit.min.js
 
 ### As a Sass Module
 
