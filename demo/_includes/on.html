@@ -1,0 +1,16 @@
+<h2>On Event</h2>
+
+<div>
+    <p>You can listen for standard and custom (non-jQuery) JS events</p>
+    <p><code>.on</code>: <span id="css-demo-event-on">...off. click here to see</span></p>
+</div>
+
+<script>
+    var elOn = document.getElementById('css-demo-event-on');
+
+    window.updateEventOn = function(){
+        elOn.innerHTML = 'now i\'m on.';
+    };
+
+    toolkit.event.on(elOn,'click',window.updateEventOn);
+</script>

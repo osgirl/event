@@ -106,6 +106,6 @@ if (typeof window.define === "function" && window.define.amd) {
         return event;
     });
 } else {
-    toolkit.detect = event;
+    toolkit.event = event;
 }
 },{"./event":1}]},{},[2]);

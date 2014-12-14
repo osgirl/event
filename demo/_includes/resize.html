@@ -1,0 +1,17 @@
+<h2>Resize Event</h2>
+
+<div>
+    <p>You can know the moment (200ms) a user has finished resizing the browser</p>
+    <p><code>resizeend</code>:
+        <span id="css-demo-event-resizeend">not re-sized.</span>
+</div>
+
+<script>
+    var elResizeEnd = document.getElementById('css-demo-event-resizeend');
+
+    function updateEventResizeEnd(){
+        elResizeEnd.innerHTML = 'boom. resized.';
+    }
+
+    toolkit.event.on(window,'resizeend',updateEventResizeEnd);
+</script>
