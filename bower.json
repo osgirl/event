@@ -1,6 +1,6 @@
 {
-    "name": "event",
-    "version": "0.0.2",
+    "name": "bskyb-event",
+    "version": "0.0.0",
     "homepage": "https://github.com/skyglobal/event",
     "authors": [
         "skycom <dl-skycom@bskyb.com>"
