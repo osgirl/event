@@ -1,6 +1,6 @@
 {
   "name": "event",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Toolkit Events",
   "devDependencies": {
     "browser-sync": "^1.5.9",

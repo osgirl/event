@@ -9,11 +9,11 @@ See http://skyglobal.github.io/event/ for a demo of the Component
 
 ### As CSS
 
-http://web-toolkit.global.sky.com/components/event/0.0.4/css/event.css
+http://web-toolkit.global.sky.com/components/event/0.0.5/css/event.css
 
 ### As JS
 
-http://web-toolkit.global.sky.com/components/event/0.0.4/js/event.js
+http://web-toolkit.global.sky.com/components/event/0.0.5/js/event.js
 
 ### As a Sass Module
 
