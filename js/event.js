@@ -95,5 +95,5 @@ module.exports = {
     off: off,
     emit: emit,
     ready: ready
-}
+};
 },{}]},{},[1]);

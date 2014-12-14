@@ -95,7 +95,7 @@ module.exports = {
     off: off,
     emit: emit,
     ready: ready
-}
+};
 },{}],2:[function(require,module,exports){
 var event = require('./event');
 
