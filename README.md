@@ -13,7 +13,7 @@ http://web-toolkit.global.sky.com/components/event/0.0.6/js/event.toolkit.js
 
 http://web-toolkit.global.sky.com/components/event/0.0.6/js/event.toolkit.min.js
 
-### As a Sass Module
+### As a JS Module
 
 `bower install --save-dev bskyb-event`
 
