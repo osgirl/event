@@ -1,7 +1,7 @@
 [event](http://skyglobal.github.io/event/) 
 ========================
 
-> event
+> Cross browser event handling without jQuery
 
 See http://skyglobal.github.io/event/ for a demo of the Component
 
@@ -9,9 +9,9 @@ See http://skyglobal.github.io/event/ for a demo of the Component
 
 ### As JS
 
-http://web-toolkit.global.sky.com/components/event/0.1.0/js/event.toolkit.js
+http://web-toolkit.global.sky.com/components/event/0.1.0/js/event.js
 
-http://web-toolkit.global.sky.com/components/event/0.1.0/js/event.toolkit.min.js
+http://web-toolkit.global.sky.com/components/event/0.1.0/js/event.min.js
 
 ### As a Module
 
