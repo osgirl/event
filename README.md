@@ -9,9 +9,9 @@ See http://skyglobal.github.io/event/ for a demo of the Component
 
 ### As JS
 
-http://web-toolkit.global.sky.com/components/event/0.0.6/js/event.toolkit.js
+http://web-toolkit.global.sky.com/components/event/0.0.7/js/event.toolkit.js
 
-http://web-toolkit.global.sky.com/components/event/0.0.6/js/event.toolkit.min.js
+http://web-toolkit.global.sky.com/components/event/0.0.7/js/event.toolkit.min.js
 
 ### As a Module
 
