@@ -80,7 +80,16 @@ module.exports = {
 if (typeof skyComponents === "undefined") window.skyComponents = {};
 skyComponents.event = module.exports;
 
-},{"./utils":2}],2:[function(require,module,exports){
+},{"./utils":3}],2:[function(require,module,exports){
+var event = require('./event');
+
+if (typeof window.define === "function" && window.define.amd) {
+    define('bower_components/bskyb-event/dist/js/event.requirejs', [], function() {
+        'use strict';
+        return event;
+    });
+}
+},{"./event":1}],3:[function(require,module,exports){
 var eventRegistry = {};
 var state = {    };
 var browserSpecificEvents = {
@@ -172,4 +181,4 @@ module.exports = {
     on: on,
     off: off
 };
-},{}]},{},[1]);
+},{}]},{},[2]);

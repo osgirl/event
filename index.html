@@ -2,102 +2,82 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>event</title>
+    <title>Event</title>
 
     <link rel="stylesheet" href="css/demo.css"/>
+    <script src="js/event.js"></script>
 </head>
 <body>
 
-<h1>event
-    <small  class="demo-version text--secondary">v0.0.6
+<h1>Event
+    <small  class="demo-version text--secondary">v0.1.0
         <a href="https://github.com/skyglobal/event" class="text--secondary">
             <span class="demo-icon demo-icon--github"  aria-hidden=true></span>
             <span class="speak">Github Repo</span>
         </a></small>
 </h1>
 
-<script src="js/event.toolkit.js"></script>
 
 
 
 
-<h2>Emit</h2>
-
-<div>
-    <p>You can emit standard and custom (non-jQuery) JS events.</p>
-    <p><code>.emit</code>:
-        <span id="css-demo-event-emit">...shout loud and proud</span>
-        <span id="css-demo-event-emit-custom"></span></p>
-</div>
-
-<script>
-    var elEmit = document.getElementById('css-demo-event-emit');
-    var elEmitCustom = document.getElementById('css-demo-event-emit-custom');
-
-    function updateEventEmit(){
-        elEmit.innerHTML = 'now my throat is sore';
-        toolkit.event.emit(elEmitCustom,'demoCustomEmit');
-    }
-
-    function updateEventEmitCustom(){
-        elEmitCustom.innerHTML = ' ....shhh.';
-    }
-
-    toolkit.event.on(elEmit,'click',updateEventEmit);
-    toolkit.event.on(elEmitCustom,'demoCustomEmit',updateEventEmitCustom);
-</script>
-<h2>Off Event</h2>
+<h2>off(el, event, fn)</h2>
 
 <div>
     <p>You can turn off events that were previously applied using the <code>on</code> method above.</p>
-    <p><code>.off</code>: <span id="css-demo-event-off">turn off the 'on' event (below)</span></p>
+    <p><code class="medium">.off</code>:
+        <a id="css-demo-event-off" href="#"> clicking here will disabled the 'on' link below</a>
+    </p>
 </div>
 
 <script>
     var elOff = document.getElementById('css-demo-event-off');
 
-    toolkit.event.on(elOff,'click', updateEventOff);
+    skyComponents.event.on(elOff,'click', updateEventOff);
 
     function updateEventOff(){
-        toolkit.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
+        skyComponents.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
     }
 </script>
-<h2>On Event</h2>
+<h2>on(el, event, fn)</h2>
 
 <div>
     <p>You can listen for standard and custom (non-jQuery) JS events</p>
-    <p><code>.on</code>: <span id="css-demo-event-on">...off. click here to see</span></p>
+    <p><code class="medium">.on</code>:
+        <a id="css-demo-event-on" href="#"> This hasn't been clicked. click here to update</a>
+    </p>
 </div>
 
 <script>
     var elOn = document.getElementById('css-demo-event-on');
 
     window.updateEventOn = function(){
-        elOn.innerHTML = 'now i\'m on.';
+        elOn.innerHTML = 'This has been clicked already.';
     };
 
-    toolkit.event.on(elOn,'click',window.updateEventOn);
+    skyComponents.event.on(elOn,'click',window.updateEventOn);
 </script>
-<h2>Ready Event</h2>
+<h2>ready(fn)</h2>
 
 <div>
     <p>You can detect when the document has finished loading everything except images:</p>
-    <p><code>.ready</code>: <span id="css-demo-event-ready">document loading...</span></p>
+    <p><code class="medium">.ready</code>:
+        <a id="css-demo-event-ready" href="#">document is loading...</a>
 </div>
 
 <script>
     function updateEventReady(){
-        document.getElementById('css-demo-event-ready').innerHTML = 'Woah, document loaded.';
+        document.getElementById('css-demo-event-ready').innerHTML = 'Document has finished loading.';
     }
 
-    toolkit.event.ready(updateEventReady);
+    skyComponents.event.ready(updateEventReady);
 </script>
-<h2>Resize Event</h2>
+<h2>on('resizeend', fn)</h2>
 
 <div>
     <p>You can know the moment (200ms) a user has finished resizing the browser</p>
-    <p><code>resizeend</code>:
-        <span id="css-demo-event-resizeend">not re-sized.</span>
+    <p><code class="medium">resizeend</code>:
+        <a href="#" id="css-demo-event-resizeend">not re-sized.</a>
 </div>
 
 <script>
@@ -107,5 +87,30 @@
         elResizeEnd.innerHTML = 'boom. resized.';
     }
 
-    toolkit.event.on(window,'resizeend',updateEventResizeEnd);
+    skyComponents.event.on(window,'resizeend',updateEventResizeEnd);
+</script>
+<h2>trigger(event)</h2>
+
+<div>
+    <p>You can trigger standard and custom (non-jQuery) JS events.</p>
+    <p><code class="medium">.trigger</code>:
+        <a href="#" id="css-demo-event-trigger">Click here to trigger the 'custom' event</a>
+        <span id="css-demo-event-trigger-custom"></span></p>
+</div>
+
+<script>
+    var eltrigger = document.getElementById('css-demo-event-trigger');
+    var eltriggerCustom = document.getElementById('css-demo-event-trigger-custom');
+
+    function updateEventtrigger(){
+        eltrigger.innerHTML = 'now my throat is sore';
+        skyComponents.event.trigger(eltriggerCustom,'demoCustomtrigger');
+    }
+
+    function updateEventtriggerCustom(){
+        eltriggerCustom.innerHTML = ' ....shhh.';
+    }
+
+    skyComponents.event.on(eltrigger,'click',updateEventtrigger);
+    skyComponents.event.on(eltriggerCustom,'demoCustomtrigger',updateEventtriggerCustom);
 </script>
