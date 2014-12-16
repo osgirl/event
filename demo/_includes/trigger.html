@@ -1,0 +1,25 @@
+<h2>trigger(event)</h2>
+
+<div>
+    <p>You can trigger standard and custom (non-jQuery) JS events.</p>
+    <p><code class="medium">.trigger</code>:
+        <a href="#" id="css-demo-event-trigger">Click here to trigger the 'custom' event</a>
+        <span id="css-demo-event-trigger-custom"></span></p>
+</div>
+
+<script>
+    var eltrigger = document.getElementById('css-demo-event-trigger');
+    var eltriggerCustom = document.getElementById('css-demo-event-trigger-custom');
+
+    function updateEventtrigger(){
+        eltrigger.innerHTML = 'now my throat is sore';
+        skyComponents.event.trigger(eltriggerCustom,'demoCustomtrigger');
+    }
+
+    function updateEventtriggerCustom(){
+        eltriggerCustom.innerHTML = ' ....shhh.';
+    }
+
+    skyComponents.event.on(eltrigger,'click',updateEventtrigger);
+    skyComponents.event.on(eltriggerCustom,'demoCustomtrigger',updateEventtriggerCustom);
+</script>

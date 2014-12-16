@@ -1,8 +1,87 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var timeout = {
-    resize: null
+var utils = require('./utils');
+var timeout = { resize: null };
+NodeList.prototype.isNodeList = HTMLCollection.prototype.isNodeList = true;
+
+function bindEvents() {
+    on(window, 'resize', initResizeEnd);
+}
+
+function initResizeEnd() {
+    clearTimeout(timeout.resize);
+    timeout.resize = setTimeout(function triggerResizeEnd() {
+        trigger(window, 'resizeend'); // raw JS version
+        if (typeof $ !== 'undefined') {
+            $(window).trigger('resizeend'); // jQuery version
+        }
+    }, 200);
+}
+
+
+function on(el, eventName, eventHandler, useCapture){
+    if (el.isNodeList){
+        Array.prototype.forEach.call(el, function(element, i){
+            utils.on(element, eventName, eventHandler, useCapture)
+        });
+    } else {
+        utils.on(el, eventName, eventHandler, useCapture);
+    }
+}
+
+function off(el, eventName, eventHandler, useCapture) {
+    if (el.isNodeList){
+        Array.prototype.forEach.call(el, function(element, i){
+            utils.off(element, eventName, eventHandler, useCapture)
+        });
+    } else {
+        utils.off(el, eventName, eventHandler, useCapture)
+    }
+}
+
+function trigger(el, eventName) {
+    var event;
+    if (document.createEvent) {
+        event = document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
+        event.initCustomEvent(eventName, false, false, null);
+        el.dispatchEvent(event);
+    } else {
+        event = document.createEventObject();
+        el.fireEvent('on' + eventName, event);
+    }
+}
+
+function ready(exec) {
+    if (/in/.test(document.readyState)) {
+        setTimeout(function () {
+            ready(exec);
+        }, 9);
+    } else {
+        exec();
+    }
+}
+
+function live(events, selector, eventHandler){
+    events.split(' ').forEach(function(eventName){
+        utils.attachEvent(eventName, selector, eventHandler);
+    });
+}
+
+bindEvents();
+
+module.exports = {
+    live: live,
+    on: on,
+    off: off,
+    emit: trigger, //deprecate me
+    trigger: trigger,
+    ready: ready
 };
 
+if (typeof skyComponents === "undefined") window.skyComponents = {};
+skyComponents.event = module.exports;
+
+},{"./utils":2}],2:[function(require,module,exports){
+var eventRegistry = {};
 var state = {    };
 var browserSpecificEvents = {
     'transitionend': check('transition', 'end'),
@@ -13,7 +92,7 @@ function capitalise(str) {
     return str.replace(/\b[a-z]/g, function () {
         return arguments[0].toUpperCase();
     });
-};
+}
 
 function check(eventName, type) {
     var result = false,
@@ -30,70 +109,67 @@ function check(eventName, type) {
         result = 'o' + eventTypeCaps;
     }
     return result;
-};
+}
 
-function bindEvents() {
-    on(window, 'resize', function () {
-        clearTimeout(timeout.resize);
-        timeout.resize = setTimeout(emitResizeEnd, 200);
-    });
-};
-
-function emitResizeEnd() {
-    emit(window, 'resizeend'); // raw JS version
-    if (typeof $ !== 'undefined') {
-        $(window).trigger('resizeend'); // jQuery version
-    }
-};
-
-function on(el, eventName, exec) {
-    var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
-    eventName = browserSpecificEventName || eventName;
-    if (el.addEventListener) {
-        el.addEventListener(eventName, exec, false);
-    } else {
-        el.attachEvent(eventName, exec);
-    }
-};
-
-function off(el, eventName, exec) {
-    var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
-    eventName = browserSpecificEventName || eventName;
+function off(el, eventName, eventHandler) {
     if (el.removeEventListener) {
-        el.removeEventListener(eventName, exec, false);
+        el.removeEventListener(eventName, eventHandler, false);
     } else {
-        el.detachEvent('on' + eventName, exec);
+        var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
+        eventName = browserSpecificEventName || eventName;
+        el.detachEvent(eventName, eventHandler);
     }
-};
+}
 
-function emit(el, eventName) {
-    var event;
-    if (document.createEvent) {
-        event = document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
-        event.initCustomEvent(eventName, false, false, null);
-        el.dispatchEvent(event);
+function on(el, eventName, eventHandler, useCapture) {
+    if (el.addEventListener) {
+        el.addEventListener(eventName, eventHandler, !!useCapture);
     } else {
-        event = document.createEventObject();
-        el.fireEvent('on' + eventName, event);
+        var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
+        eventName = browserSpecificEventName || eventName;
+        el.attachEvent(eventName, eventHandler);
     }
-};
+}
 
-function ready(exec) {
-    if (/in/.test(document.readyState)) {
-        setTimeout(function () {
-            ready(exec);
-        }, 9);
-    } else {
-        exec();
+function contains(el, child){
+    return el !== child && el.contains(child);
+}
+
+function dispatchEvent(event) {
+    var targetElement = event.target;
+
+    eventRegistry[event.type].forEach(function (entry) {
+        var potentialElements = document.querySelectorAll(entry.selector);
+        var hasMatch = false;
+        Array.prototype.forEach.call(potentialElements, function(item){
+            if (contains(item, targetElement) || item === targetElement){
+                hasMatch = true;
+                return;
+            }
+        });
+
+        if (hasMatch) {
+            entry.handler.call(targetElement, event);
+        }
+    }.bind(this));
+
+}
+
+function attachEvent(eventName, selector, eventHandler){
+    if (!eventRegistry[eventName]) {
+        eventRegistry[eventName] = [];
+        on(document.documentElement, eventName, dispatchEvent, true);
     }
-};
 
-bindEvents();
+    eventRegistry[eventName].push({
+        selector: selector,
+        handler: eventHandler
+    });
+}
 
 module.exports = {
+    attachEvent: attachEvent,
     on: on,
-    off: off,
-    emit: emit,
-    ready: ready
+    off: off
 };
 },{}]},{},[1]);

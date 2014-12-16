@@ -1,16 +1,18 @@
-<h2>On Event</h2>
+<h2>on(el, event, fn)</h2>
 
 <div>
     <p>You can listen for standard and custom (non-jQuery) JS events</p>
-    <p><code>.on</code>: <span id="css-demo-event-on">...off. click here to see</span></p>
+    <p><code class="medium">.on</code>:
+        <a id="css-demo-event-on" href="#"> This hasn't been clicked. click here to update</a>
+    </p>
 </div>
 
 <script>
     var elOn = document.getElementById('css-demo-event-on');
 
     window.updateEventOn = function(){
-        elOn.innerHTML = 'now i\'m on.';
+        elOn.innerHTML = 'This has been clicked already.';
     };
 
-    toolkit.event.on(elOn,'click',window.updateEventOn);
+    skyComponents.event.on(elOn,'click',window.updateEventOn);
 </script>

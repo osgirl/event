@@ -1,16 +1,18 @@
-<h2>Off Event</h2>
+<h2>off(el, event, fn)</h2>
 
 <div>
     <p>You can turn off events that were previously applied using the <code>on</code> method above.</p>
-    <p><code>.off</code>: <span id="css-demo-event-off">turn off the 'on' event (below)</span></p>
+    <p><code class="medium">.off</code>:
+        <a id="css-demo-event-off" href="#"> clicking here will disabled the 'on' link below</a>
+    </p>
 </div>
 
 <script>
     var elOff = document.getElementById('css-demo-event-off');
 
-    toolkit.event.on(elOff,'click', updateEventOff);
+    skyComponents.event.on(elOff,'click', updateEventOff);
 
     function updateEventOff(){
-        toolkit.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
+        skyComponents.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
     }
 </script>

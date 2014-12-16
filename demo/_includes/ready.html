@@ -1,14 +1,15 @@
-<h2>Ready Event</h2>
+<h2>ready(fn)</h2>
 
 <div>
     <p>You can detect when the document has finished loading everything except images:</p>
-    <p><code>.ready</code>: <span id="css-demo-event-ready">document loading...</span></p>
+    <p><code class="medium">.ready</code>:
+        <a id="css-demo-event-ready" href="#">document is loading...</a>
 </div>
 
 <script>
     function updateEventReady(){
-        document.getElementById('css-demo-event-ready').innerHTML = 'Woah, document loaded.';
+        document.getElementById('css-demo-event-ready').innerHTML = 'Document has finished loading.';
     }
 
-    toolkit.event.ready(updateEventReady);
+    skyComponents.event.ready(updateEventReady);
 </script>

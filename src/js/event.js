@@ -1,71 +1,43 @@
-var timeout = {
-    resize: null
-};
-
-var state = {    };
-var browserSpecificEvents = {
-    'transitionend': check('transition', 'end'),
-    'animationend': check('animation', 'end')
-};
-
-function capitalise(str) {
-    return str.replace(/\b[a-z]/g, function () {
-        return arguments[0].toUpperCase();
-    });
-};
-
-function check(eventName, type) {
-    var result = false,
-        eventType = eventName.toLowerCase() + type.toLowerCase(),
-        eventTypeCaps = capitalise(eventName.toLowerCase()) + capitalise(type.toLowerCase());
-    if (state[eventType]) {
-        return state[eventType];
-    }
-    if ('on' + eventType in window) {
-        result = eventType;
-    } else if ('onwebkit' + eventType in window) {
-        result = 'webkit' + eventTypeCaps;
-    } else if ('ono' + eventType in document.documentElement) {
-        result = 'o' + eventTypeCaps;
-    }
-    return result;
-};
+var utils = require('./utils');
+var timeout = { resize: null };
+NodeList.prototype.isNodeList = HTMLCollection.prototype.isNodeList = true;
 
 function bindEvents() {
-    on(window, 'resize', function () {
-        clearTimeout(timeout.resize);
-        timeout.resize = setTimeout(emitResizeEnd, 200);
-    });
-};
+    on(window, 'resize', initResizeEnd);
+}
 
-function emitResizeEnd() {
-    emit(window, 'resizeend'); // raw JS version
-    if (typeof $ !== 'undefined') {
-        $(window).trigger('resizeend'); // jQuery version
-    }
-};
+function initResizeEnd() {
+    clearTimeout(timeout.resize);
+    timeout.resize = setTimeout(function triggerResizeEnd() {
+        trigger(window, 'resizeend'); // raw JS version
+        if (typeof $ !== 'undefined') {
+            $(window).trigger('resizeend'); // jQuery version
+        }
+    }, 200);
+}
 
-function on(el, eventName, exec) {
-    var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
-    eventName = browserSpecificEventName || eventName;
-    if (el.addEventListener) {
-        el.addEventListener(eventName, exec, false);
+
+function on(el, eventName, eventHandler, useCapture){
+    if (el.isNodeList){
+        Array.prototype.forEach.call(el, function(element, i){
+            utils.on(element, eventName, eventHandler, useCapture)
+        });
     } else {
-        el.attachEvent(eventName, exec);
+        utils.on(el, eventName, eventHandler, useCapture);
     }
-};
+}
 
-function off(el, eventName, exec) {
-    var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
-    eventName = browserSpecificEventName || eventName;
-    if (el.removeEventListener) {
-        el.removeEventListener(eventName, exec, false);
+function off(el, eventName, eventHandler, useCapture) {
+    if (el.isNodeList){
+        Array.prototype.forEach.call(el, function(element, i){
+            utils.off(element, eventName, eventHandler, useCapture)
+        });
     } else {
-        el.detachEvent('on' + eventName, exec);
+        utils.off(el, eventName, eventHandler, useCapture)
     }
-};
+}
 
-function emit(el, eventName) {
+function trigger(el, eventName) {
     var event;
     if (document.createEvent) {
         event = document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
@@ -75,7 +47,7 @@ function emit(el, eventName) {
         event = document.createEventObject();
         el.fireEvent('on' + eventName, event);
     }
-};
+}
 
 function ready(exec) {
     if (/in/.test(document.readyState)) {
@@ -85,13 +57,24 @@ function ready(exec) {
     } else {
         exec();
     }
-};
+}
+
+function live(events, selector, eventHandler){
+    events.split(' ').forEach(function(eventName){
+        utils.attachEvent(eventName, selector, eventHandler);
+    });
+}
 
 bindEvents();
 
 module.exports = {
+    live: live,
     on: on,
     off: off,
-    emit: emit,
+    emit: trigger, //deprecate me
+    trigger: trigger,
     ready: ready
 };
+
+if (typeof skyComponents === "undefined") window.skyComponents = {};
+skyComponents.event = module.exports;

@@ -1,9 +1,9 @@
-<h2>Resize Event</h2>
+<h2>on('resizeend', fn)</h2>
 
 <div>
     <p>You can know the moment (200ms) a user has finished resizing the browser</p>
-    <p><code>resizeend</code>:
-        <span id="css-demo-event-resizeend">not re-sized.</span>
+    <p><code class="medium">resizeend</code>:
+        <a href="#" id="css-demo-event-resizeend">not re-sized.</a>
 </div>
 
 <script>
@@ -13,5 +13,5 @@
         elResizeEnd.innerHTML = 'boom. resized.';
     }
 
-    toolkit.event.on(window,'resizeend',updateEventResizeEnd);
+    skyComponents.event.on(window,'resizeend',updateEventResizeEnd);
 </script>
