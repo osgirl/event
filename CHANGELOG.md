@@ -1,5 +1,9 @@
 # Change Log
   
+## 0.1.1
+
+  * Added `.requirejs.js` files to distributable
+
 ## 0.1.0
 
   * Added `Live` function
