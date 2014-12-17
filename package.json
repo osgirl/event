@@ -1,7 +1,7 @@
 {
   "name": "event",
   "version": "0.1.0",
-  "description": "Toolkit Events",
+  "description": "Cross-browser Events",
   "devDependencies": {
     "browser-sync": "^1.5.9",
     "gulp": "^3.8.10",
