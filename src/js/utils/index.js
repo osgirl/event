@@ -18,32 +18,29 @@ function check(eventName, type) {
     if (state[eventType]) {
         return state[eventType];
     }
-    if ('on' + eventType in window) {
-        result = eventType;
-    } else if ('onwebkit' + eventType in window) {
-        result = 'webkit' + eventTypeCaps;
-    } else if ('ono' + eventType in document.documentElement) {
-        result = 'o' + eventTypeCaps;
-    }
+    ['ms', 'moz', 'webkit', 'o', ''].forEach(function(prefix){
+        if (('on' + prefix + eventType in window) ||
+            ('on' + prefix + eventType in document.documentElement)) {
+            result = prefix + eventTypeCaps;
+        }
+    });
     return result;
 }
 
 function off(el, eventName, eventHandler) {
+    eventName = browserSpecificEvents[eventName.toLowerCase()];
     if (el.removeEventListener) {
         el.removeEventListener(eventName, eventHandler, false);
     } else {
-        var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
-        eventName = browserSpecificEventName || eventName;
         el.detachEvent(eventName, eventHandler);
     }
 }
 
 function on(el, eventName, eventHandler, useCapture) {
+    eventName = browserSpecificEvents[eventName.toLowerCase()];
     if (el.addEventListener) {
         el.addEventListener(eventName, eventHandler, !!useCapture);
     } else {
-        var browserSpecificEventName = browserSpecificEvents[eventName.toLowerCase()];
-        eventName = browserSpecificEventName || eventName;
         el.attachEvent(eventName, eventHandler);
     }
 }
