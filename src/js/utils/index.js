@@ -1,8 +1,8 @@
 var eventRegistry = {};
 var state = {    };
 var browserSpecificEvents = {
-    'transitionend': check('transition', 'end'),
-    'animationend': check('animation', 'end')
+    'transitionend': 'transition',
+    'animationend': 'animation'
 };
 
 function capitalise(str) {
@@ -11,7 +11,12 @@ function capitalise(str) {
     });
 }
 
-function check(eventName, type) {
+function check(eventName) {
+    var type = '';
+    if (browserSpecificEvents[eventName]){
+        eventName =  browserSpecificEvents[eventName];
+        type = 'end';
+    }
     var result = false,
         eventType = eventName.toLowerCase() + type.toLowerCase(),
         eventTypeCaps = capitalise(eventName.toLowerCase()) + capitalise(type.toLowerCase());
@@ -21,27 +26,28 @@ function check(eventName, type) {
     ['ms', 'moz', 'webkit', 'o', ''].forEach(function(prefix){
         if (('on' + prefix + eventType in window) ||
             ('on' + prefix + eventType in document.documentElement)) {
-            result = prefix + eventTypeCaps;
+            result = (!!prefix) ? prefix + eventTypeCaps : eventType;
         }
     });
+    state[eventType] = result;
     return result;
 }
 
 function off(el, eventName, eventHandler) {
-    eventName = browserSpecificEvents[eventName.toLowerCase()];
+    eventName = check(eventName) || eventName;
     if (el.removeEventListener) {
         el.removeEventListener(eventName, eventHandler, false);
     } else {
-        el.detachEvent(eventName, eventHandler);
+        el.detachEvent('on' + eventName, eventHandler);
     }
 }
 
 function on(el, eventName, eventHandler, useCapture) {
-    eventName = browserSpecificEvents[eventName.toLowerCase()];
+    eventName = check(eventName) || eventName;
     if (el.addEventListener) {
         el.addEventListener(eventName, eventHandler, !!useCapture);
     } else {
-        el.attachEvent(eventName, eventHandler);
+        el.attachEvent('on' + eventName, eventHandler);
     }
 }
 

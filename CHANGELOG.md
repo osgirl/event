@@ -1,5 +1,9 @@
 # Change Log
   
+## 0.1.2
+
+  * Fixed custom events + `on` for browser prefixed events
+
 ## 0.1.1
 
   * Added `.requirejs.js` files to distributable
