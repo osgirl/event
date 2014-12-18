@@ -26,12 +26,13 @@
 
 
 
-<h2>off(el, event, fn)</h2>
+<h2>Off</h2>
+
+<code>event.off(el, event, fn);</code>
 
 <div>
     <p>You can turn off events that were previously applied using the <code>on</code> method above.</p>
-    <p><code class="medium">.off</code>:
-        <a id="css-demo-event-off" href="#"> clicking here will disabled the 'on' link below</a>
+    <p><a id="css-demo-event-off" href="#"> clicking here will disabled the 'on' link below</a>
     </p>
 </div>
 
@@ -44,11 +45,13 @@
         skyComponents.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
     }
 </script>
-<h2>on(el, event, fn)</h2>
+<h2>On</h2>
+
+<code>event.on(el, event, fn);</code>
 
 <div>
     <p>You can listen for standard and custom (non-jQuery) JS events</p>
-    <p><code class="medium">.on</code>:
+    <p class="">
         <a id="css-demo-event-on" href="#"> This hasn't been clicked. click here to update</a>
     </p>
 </div>
@@ -62,12 +65,12 @@
 
     skyComponents.event.on(elOn,'click',window.updateEventOn);
 </script>
-<h2>ready(fn)</h2>
+<h2>Ready</h2>
+<code>event.ready(fn);</code>
 
 <div>
     <p>You can detect when the document has finished loading everything except images:</p>
-    <p><code class="medium">.ready</code>:
-        <a id="css-demo-event-ready" href="#">document is loading...</a>
+    <p><span id="css-demo-event-ready" class="medium">Document is loading...</span></p>
 </div>
 
 <script>
@@ -77,12 +80,14 @@
 
     skyComponents.event.ready(updateEventReady);
 </script>
-<h2>on('resizeend', fn)</h2>
+<h2>Resize-end</h2>
+<code>event.on(window, 'resizeend', fn);</code>
 
 <div>
     <p>You can know the moment (200ms) a user has finished resizing the browser</p>
-    <p><code class="medium">resizeend</code>:
-        <a href="#" id="css-demo-event-resizeend">not re-sized.</a>
+    <p class="medium">
+        <span id="css-demo-event-resizeend">not re-sized.</span>
+    </p>
 </div>
 
 <script>
@@ -94,12 +99,13 @@
 
     skyComponents.event.on(window,'resizeend',updateEventResizeEnd);
 </script>
-<h2>trigger(event)</h2>
+<h2>Trigger</h2>
+
+<code>event.trigger(el, event);</code>
 
 <div>
     <p>You can trigger standard and custom (non-jQuery) JS events.</p>
-    <p><code class="medium">.trigger</code>:
-        <a href="#" id="css-demo-event-trigger">Click here to trigger the 'custom' event</a>
+    <p> <a href="#" id="css-demo-event-trigger">Click here to trigger the 'custom' event</a>
         <span id="css-demo-event-trigger-custom"></span></p>
 </div>
 
