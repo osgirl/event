@@ -1,4 +1,6 @@
 test:
+  pre:
+    - npm install -g gulp
   override:
     - gulp test
 machine:
