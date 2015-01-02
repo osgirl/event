@@ -1,4 +1,4 @@
-[event](http://skyglobal.github.io/event/) 
+[event](http://skyglobal.github.io/event/) [![Circle CI](https://circleci.com/gh/skyglobal/event/tree/master.svg?style=svg)](https://circleci.com/gh/skyglobal/event/tree/master)
 ========================
 
 > Cross browser event handling without jQuery
