@@ -6,6 +6,7 @@ _site/
 node_modules/
 bower_components/
 npm-debug.log
+test/coverage
 *.iml
 *.ipr
 *.iws

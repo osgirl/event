@@ -154,7 +154,7 @@ function dispatchEvent(event) {
         if (hasMatch) {
             entry.handler.call(targetElement, event);
         }
-    }.bind(this));
+    });
 
 }
 
