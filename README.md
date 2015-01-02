@@ -1,25 +1,23 @@
-[event](http://skyglobal.github.io/event/) [![Circle CI](https://circleci.com/gh/skyglobal/event/tree/master.svg?style=svg)](https://circleci.com/gh/skyglobal/event/tree/master)
+[Event](http://skyglobal.github.io/event/) [![Circle CI](https://circleci.com/gh/skyglobal/event/tree/master.svg?style=svg)](https://circleci.com/gh/skyglobal/event/tree/master)
 ========================
 
-> Cross browser event handling without jQuery
+> Cross browser event handling without jQuery. Please take a look at the [demo page](http://skyglobal.github.io/event/)
 
 See http://skyglobal.github.io/event/ for a demo of the Component
 
-## Usage
+## Quick-Start
 
-### As JS
+Include the Share assets in your project either as **Static Resources**
 
-http://web-toolkit.global.sky.com/components/event/0.1.1/js/event.js
+```
+<script type="text/javascript" src="http://web-toolkit.global.sky.com/components/event/0.1.1/js/event.min.js"></script>
+```
 
-http://web-toolkit.global.sky.com/components/event/0.1.1/js/event.min.js
+or alternatively, **Via Bower**
 
-### As a Module
+ * Run: `bower install --save-dev bskyb-event`
+ * Include JS: `var share = require('../../bower_components/bskyb-event/src/js/event');`
 
-`bower install --save-dev bskyb-event`
-
-### Locally
-
-`gulp serve`
 
 ## Contribution
 
