@@ -1,6 +1,6 @@
 test:
   override:
-    - bundle exec gulp test
+    - gulp test
 machine:
   node:
     version: v0.10.33
