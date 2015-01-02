@@ -7,6 +7,8 @@ test:
     - npm install karma-jasmine
     - npm install karma-phantomjs-launcher
     - npm install karma-html2js-preprocessor
+    - npm install karma-html2js-preprocessor
+    - gulp build
   override:
     - gulp test
 machine:
