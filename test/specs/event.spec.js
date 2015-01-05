@@ -92,6 +92,20 @@ describe('Event module can ', function () {
         expect(callMe.fn.calls.count()).toBe(4);
     });
 
+    it('attach/remove browser specific events i.e. transitionend', function () {
+        var callMe = { fn: function(){} };
+        spyOn(callMe, 'fn');
+
+        event.on(document.querySelector('div'),'transitionend',callMe.fn);
+        event.trigger(document.getElementsByTagName('div')[0],'transitionend');
+        expect(callMe.fn).toHaveBeenCalled();
+        expect(callMe.fn.calls.count()).toBe(1);
+
+        event.off(document.querySelector('div'),'transitionend', callMe.fn);
+        event.trigger(document.getElementsByTagName('div')[0],'transitionend');
+        expect(callMe.fn.calls.count()).toBe(1);
+    });
+
     it('creates `live` events', function () {
         var callMe = { fn : function(){}};
         spyOn(callMe, 'fn');

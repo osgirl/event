@@ -34,6 +34,19 @@ function check(eventName) {
     return result;
 }
 
+function dispatchEvent(el, eventName){
+    eventName = check(eventName) || eventName;
+    var event;
+    if (document.createEvent) {
+        event = document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
+        event.initCustomEvent(eventName, false, false, null);
+        el.dispatchEvent(event);
+    } else {
+        event = document.createEventObject();
+        el.fireEvent('on' + eventName, event);
+    }
+}
+
 function addEventListener(el, eventName, eventHandler, useCapture){
     eventName = check(eventName) || eventName;
     if (el.addEventListener) {
@@ -52,7 +65,7 @@ function removeEventListener(el, eventName, eventHandler){
     }
 }
 
-function dispatchEvent(event) {
+function dispatchLiveEvent(event) {
     var targetElement = event.target;
 
     eventRegistry[event.type].forEach(function (entry) {
@@ -75,7 +88,7 @@ function dispatchEvent(event) {
 function attachEvent(eventName, selector, eventHandler){
     if (!eventRegistry[eventName]) {
         eventRegistry[eventName] = [];
-        addEventListener(document.documentElement, eventName, dispatchEvent, true);
+        addEventListener(document.documentElement, eventName, dispatchLiveEvent, true);
     }
 
     eventRegistry[eventName].push({
@@ -84,7 +97,9 @@ function attachEvent(eventName, selector, eventHandler){
     });
 }
 
+
 module.exports = {
+    dispatchEvent: dispatchEvent,
     attachEvent: attachEvent,
     addEventListener: addEventListener,
     removeEventListener: removeEventListener

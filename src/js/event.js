@@ -8,10 +8,7 @@ function bindEvents() {
 function initResizeEnd() {
     clearTimeout(timeout.resize);
     timeout.resize = setTimeout(function triggerResizeEnd() {
-        trigger(window, 'resizeend'); // raw JS version
-        if (typeof $ !== 'undefined') {
-            $(window).trigger('resizeend'); // jQuery version
-        }
+        trigger(window, 'resizeend');
     }, 200);
 }
 
@@ -27,15 +24,7 @@ function ready(exec) {
 }
 
 function trigger(el, eventName) {
-    var event;
-    if (document.createEvent) {
-        event = document.createEvent('CustomEvent'); // MUST be 'CustomEvent'
-        event.initCustomEvent(eventName, false, false, null);
-        el.dispatchEvent(event);
-    } else {
-        event = document.createEventObject();
-        el.fireEvent('on' + eventName, event);
-    }
+    utils.dispatchEvent(el, eventName);
 }
 
 function live(events, selector, eventHandler){
