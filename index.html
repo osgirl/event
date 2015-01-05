@@ -15,7 +15,7 @@
 <body>
 
 <h1>Event
-    <small  class="demo-version text--secondary">v0.1.1
+    <small  class="demo-version text--secondary">v0.1.2
         <a href="https://github.com/skyglobal/event" class="text--secondary">
             <span class="demo-icon demo-icon--github"  aria-hidden=true></span>
             <span class="speak">Github Repo</span>
@@ -26,7 +26,29 @@
 
 
 
-<h2>Off</h2>
+<h2 id="live">Live</h2>
+
+<code>event.live(events, selector, eventHandler);</code>
+
+<div>
+    <p>You can JS events on elements that have been added to the page after the JS has been loaded.</p>
+    <p> <a href="#" class="demo-live">Click here to trigger the 'live' event</a>
+        <span id="demo-live-result"></span></p>
+</div>
+
+<script>
+    var elLiveResult = document.getElementById('demo-live-result');
+
+    function update(){
+        var span = document.createElement('div');
+        span.classList.add('demo-live');
+        span.innerHTML = 'New element, click me!';
+        elLiveResult.appendChild(span);
+    }
+
+    skyComponents.event.live('click','.demo-live', update);
+</script>
+<h2 id="off">Off</h2>
 
 <code>event.off(el, event, fn);</code>
 
@@ -35,6 +57,12 @@
     <p><a id="css-demo-event-off" href="#"> clicking here will disabled the 'on' link below</a>
     </p>
 </div>
+
+<ul class="list list--grey">
+    <li><code>el</code> : can be a node or nodeList</li>
+    <li><code>event</code> : can be an event-name or list of events (separated by spaces)</li>
+    <li><code>fn</code> : function to be removed when event is triggered</li>
+</ul>
 
 <script>
     var elOff = document.getElementById('css-demo-event-off');
@@ -45,7 +73,7 @@
         skyComponents.event.off(document.getElementById('css-demo-event-on'), 'click', window.updateEventOn);
     }
 </script>
-<h2>On</h2>
+<h2 id="on">On</h2>
 
 <code>event.on(el, event, fn);</code>
 
@@ -56,6 +84,12 @@
     </p>
 </div>
 
+<ul class="list list--grey">
+    <li><code>el</code> : can be a node or nodeList</li>
+    <li><code>event</code> : can be an event-name or list of events (separated by spaces)</li>
+    <li><code>fn</code> : function to be called when event is triggered</li>
+</ul>
+
 <script>
     var elOn = document.getElementById('css-demo-event-on');
 
@@ -65,7 +99,7 @@
 
     skyComponents.event.on(elOn,'click',window.updateEventOn);
 </script>
-<h2>Ready</h2>
+<h2 id="ready">Ready</h2>
 <code>event.ready(fn);</code>
 
 <div>
@@ -80,7 +114,7 @@
 
     skyComponents.event.ready(updateEventReady);
 </script>
-<h2>Resize-end</h2>
+<h2 id="resizeend">Resize-end</h2>
 <code>event.on(window, 'resizeend', fn);</code>
 
 <div>
@@ -99,7 +133,7 @@
 
     skyComponents.event.on(window,'resizeend',updateEventResizeEnd);
 </script>
-<h2>Trigger</h2>
+<h2 id="trigger">Trigger</h2>
 
 <code>event.trigger(el, event);</code>
 
@@ -108,6 +142,11 @@
     <p> <a href="#" id="css-demo-event-trigger">Click here to trigger the 'custom' event</a>
         <span id="css-demo-event-trigger-custom"></span></p>
 </div>
+
+<ul class="list list--grey">
+    <li><code>el</code> : the node of which to trigger the event</li>
+    <li><code>event</code> : Event-name to be triggered</li>
+</ul>
 
 <script>
     var eltrigger = document.getElementById('css-demo-event-trigger');
