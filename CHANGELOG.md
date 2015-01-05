@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.1.1
+## 0.1.2
 
   * Updated events to allow attaching/removing of multiple events on multiple nodes at the same time
 
