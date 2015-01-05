@@ -10,7 +10,7 @@ See http://skyglobal.github.io/event/ for a demo of the Component
 Include the Share assets in your project either as **Static Resources**
 
 ```
-<script type="text/javascript" src="http://web-toolkit.global.sky.com/components/event/0.1.1/js/event.min.js"></script>
+<script type="text/javascript" src="http://web-toolkit.global.sky.com/components/event/0.1.2/js/event.min.js"></script>
 ```
 
 or alternatively, **Via Bower**

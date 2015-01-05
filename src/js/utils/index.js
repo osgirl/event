@@ -4,6 +4,7 @@ var browserSpecificEvents = {
     'transitionend': 'transition',
     'animationend': 'animation'
 };
+NodeList.prototype.isNodeList = HTMLCollection.prototype.isNodeList = true;
 
 function capitalise(str) {
     return str.replace(/\b[a-z]/g, function () {
@@ -33,16 +34,7 @@ function check(eventName) {
     return result;
 }
 
-function off(el, eventName, eventHandler) {
-    eventName = check(eventName) || eventName;
-    if (el.removeEventListener) {
-        el.removeEventListener(eventName, eventHandler, false);
-    } else {
-        el.detachEvent('on' + eventName, eventHandler);
-    }
-}
-
-function on(el, eventName, eventHandler, useCapture) {
+function addEventListener(el, eventName, eventHandler, useCapture){
     eventName = check(eventName) || eventName;
     if (el.addEventListener) {
         el.addEventListener(eventName, eventHandler, !!useCapture);
@@ -51,8 +43,13 @@ function on(el, eventName, eventHandler, useCapture) {
     }
 }
 
-function contains(el, child){
-    return el !== child && el.contains(child);
+function removeEventListener(el, eventName, eventHandler){
+    eventName = check(eventName) || eventName;
+    if (el.removeEventListener) {
+        el.removeEventListener(eventName, eventHandler, false);
+    } else {
+        el.detachEvent('on' + eventName, eventHandler);
+    }
 }
 
 function dispatchEvent(event) {
@@ -61,8 +58,8 @@ function dispatchEvent(event) {
     eventRegistry[event.type].forEach(function (entry) {
         var potentialElements = document.querySelectorAll(entry.selector);
         var hasMatch = false;
-        Array.prototype.forEach.call(potentialElements, function(item){
-            if (contains(item, targetElement) || item === targetElement){
+        Array.prototype.forEach.call(potentialElements, function(el){
+            if (el.contains(targetElement) || el === targetElement){
                 hasMatch = true;
                 return;
             }
@@ -78,7 +75,7 @@ function dispatchEvent(event) {
 function attachEvent(eventName, selector, eventHandler){
     if (!eventRegistry[eventName]) {
         eventRegistry[eventName] = [];
-        on(document.documentElement, eventName, dispatchEvent, true);
+        addEventListener(document.documentElement, eventName, dispatchEvent, true);
     }
 
     eventRegistry[eventName].push({
@@ -89,6 +86,6 @@ function attachEvent(eventName, selector, eventHandler){
 
 module.exports = {
     attachEvent: attachEvent,
-    on: on,
-    off: off
+    addEventListener: addEventListener,
+    removeEventListener: removeEventListener
 };

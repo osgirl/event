@@ -2,6 +2,10 @@
 
 ## 0.1.1
 
+  * Updated events to allow attaching/removing of multiple events on multiple nodes at the same time
+
+## 0.1.1
+
   * Fixed custom events
   * Fixed `on` for browser prefixed events
   * Added `.requirejs.js` files to distributable

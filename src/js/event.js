@@ -1,6 +1,5 @@
 var utils = require('./utils');
 var timeout = { resize: null };
-NodeList.prototype.isNodeList = HTMLCollection.prototype.isNodeList = true;
 
 function bindEvents() {
     on(window, 'resize', initResizeEnd);
@@ -17,23 +16,13 @@ function initResizeEnd() {
 }
 
 
-function on(el, eventName, eventHandler, useCapture){
-    if (el.isNodeList){
-        Array.prototype.forEach.call(el, function(element, i){
-            utils.on(element, eventName, eventHandler, useCapture)
-        });
+function ready(exec) {
+    if (/in/.test(document.readyState)) {
+        setTimeout(function () {
+            ready(exec);
+        }, 9);
     } else {
-        utils.on(el, eventName, eventHandler, useCapture);
-    }
-}
-
-function off(el, eventName, eventHandler, useCapture) {
-    if (el.isNodeList){
-        Array.prototype.forEach.call(el, function(element, i){
-            utils.off(element, eventName, eventHandler, useCapture)
-        });
-    } else {
-        utils.off(el, eventName, eventHandler, useCapture)
+        exec();
     }
 }
 
@@ -49,19 +38,33 @@ function trigger(el, eventName) {
     }
 }
 
-function ready(exec) {
-    if (/in/.test(document.readyState)) {
-        setTimeout(function () {
-            ready(exec);
-        }, 9);
-    } else {
-        exec();
-    }
-}
-
 function live(events, selector, eventHandler){
     events.split(' ').forEach(function(eventName){
         utils.attachEvent(eventName, selector, eventHandler);
+    });
+}
+
+function off(el, eventNames, eventHandler) {
+    eventNames.split(' ').forEach(function(eventName) {
+        if (el.isNodeList) {
+            Array.prototype.forEach.call(el, function (element, i) {
+                utils.removeEventListener(element, eventName, eventHandler);
+            });
+        } else {
+            utils.removeEventListener(el, eventName, eventHandler);
+        }
+    });
+}
+
+function on(el, eventNames, eventHandler, useCapture) {
+    eventNames.split(' ').forEach(function(eventName) {
+        if (el.isNodeList){
+            Array.prototype.forEach.call(el, function(element, i){
+                utils.addEventListener(element, eventName, eventHandler, useCapture);
+            });
+        } else {
+            utils.addEventListener(el, eventName, eventHandler, useCapture);
+        }
     });
 }
 
