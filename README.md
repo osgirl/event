@@ -3,7 +3,7 @@
 
 > Cross browser event handling without jQuery. Please take a look at the [demo page](http://skyglobal.github.io/event/)
 
-See http://skyglobal.github.io/event/ for a demo of the Component
+**DEPRECATED - Please use the `core` component http://skyglobal.github.io/core**
 
 ## Quick-Start
 
